@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Selector</title>
+    <style>
+        #infoBox {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script>
+        let currentQuestion = 0;
+        let answers = {};
+        let questions = [];
+
+        // Carica le domande dal file JSON
+        async function loadQuestions() {
+            try {
+                const response = await fetch('domande.json');
+                const data = await response.json();
+                questions = data.questions;
+                showQuestion();
+            } catch (error) {
+                console.error('Errore nel caricamento delle domande', error);
+            }
+        }
+
+        // Mostra la domanda attuale
+        function showQuestion() {
+            if (currentQuestion >= questions.length) {
+                calculateERP();
+                return;
+            }
+
+            const questionData = questions[currentQuestion];
+            document.getElementById("question").innerHTML = questionData.question;
+
+            let optionsHtml = '';
+            for (let option of questionData.options) {
+                optionsHtml += `<button onclick="answerQuestion('${questionData.id}', '${option}')">${option}</button><br/><br/>`;
+            }
+            document.getElementById("options").innerHTML = optionsHtml;
+            document.getElementById("infoBox").style.display = "none";
+        }
+
+        // Risponde alla domanda e passa alla successiva
+        function answerQuestion(questionId, answer) {
+            answers[questionId] = answer;
+            currentQuestion++;
+            showQuestion();
+        }
+
+        // Mostra l'informazione di una domanda
+        async function showInfo() {
+            const infoUrl = questions[currentQuestion].info;
+            const response = await fetch(infoUrl);
+            const infoContent = await response.text();
+            document.getElementById("infoBox").innerHTML = infoContent;
+            document.getElementById("infoBox").style.display = "block";
+        }
+
+        // Calcola l'ERP consigliato
+        function calculateERP() {
+            // Qui puoi implementare la logica di calcolo dell'ERP consigliato
+            document.getElementById("question").innerHTML = "ERP consigliato: [ERP]";
+            document.getElementById("options").innerHTML = '';
+        }
+
+        window.onload = function() {
+            loadQuestions();
+        }
+    </script>
+</head>
+<body>
+    <h1>Selezionatore di ERP SAP</h1>
+
+    <div id="infoBox"></div>
+
+    <div id="question"></div>
+    <button onclick="showInfo()">Info</button>
+    <br/><br/>
+    <div id="options"></div>
+</body>
+</html>

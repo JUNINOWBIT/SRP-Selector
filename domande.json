@@ -1,0 +1,22 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "Qual è la dimensione della tua azienda?",
+      "options": ["Piccole imprese (1-50 dipendenti)", "Medie imprese (50-500 dipendenti)", "Grandi imprese (500+ dipendenti)"],
+      "info": "info1.html"
+    },
+    {
+      "id": 2,
+      "question": "Qual è il modello di distribuzione preferito per l'ERP?",
+      "options": ["On-premise", "Cloud", "Entrambi"],
+      "info": "info2.html"
+    },
+    {
+      "id": 3,
+      "question": "Qual è il budget disponibile?",
+      "options": ["Basso", "Medio", "Elevato"],
+      "info": "info3.html"
+    }
+  ]
+}
